@@ -2,6 +2,39 @@
 include_once('config.php');
 $sql = "select * from angajati";
 $result = $conn->query($sql);
+
+if(isset($_POST['inserare'])){
+
+    $nume =     $_POST['nume'];
+    $prenume =  $_POST['prenume'];
+    $telefon =  $_POST['telefon'];
+    $datan =    $_POST['datan'];
+    $email =    $_POST['email'];
+    $cnp =      $_POST['cnp'];
+    $varsta =   $_POST['varsta'];
+    $casatorit= $_POST['casatorit'];
+ 
+    $sql = "INSERT INTO
+     angajati(nume, prenume,telefon, datan,email,cnp,varsta,casatorit)
+     VALUES('$nume','$prenume','$telefon','$datan', '$email','$cnp', '$varsta', '$casatorit')";
+ 
+    if($conn->query($sql)=== TRUE){
+        echo "Am introdus datele";
+    } else {
+        echo "Eroare: " . $conn->error;
+    }  
+ }
+
+if(isset($_GET['delete'])){
+    $id=$_GET['id'];
+
+    $sql = "delete from angajati where id='$id'";
+
+    $conn->query($sql);
+   }
+
+
+
 ?>
 
 <table border=1 width=100%>
@@ -15,6 +48,7 @@ $result = $conn->query($sql);
         <th>CNP</th>
         <th>Varsta</th>
         <th>Casatorit</th>
+        <th>DELETE</th>
     </tr>
 <?php
 
@@ -44,6 +78,10 @@ if($result->num_rows > 0) {
         echo "<td>";
         echo ($casatorit)?"Da":"Nu";
         echo "</td>";
+        
+        echo "<td>";
+        echo "<a href='?delete&id=$id'>DELETE</a>";
+        echo "</td>";
 
         echo '</tr>';
         
@@ -54,6 +92,7 @@ if($result->num_rows > 0) {
 
 ?>
 </table>
+
 
 <br><br><br><br>
 
@@ -69,31 +108,31 @@ if($result->num_rows > 0) {
     </tr>
     <tr>
         <td>Telefon</td>
-        <td><input type="text"></td>
+        <td><input name="telefon" type="text"></td>
     </tr>
     <tr>
         <td>Data nasterii</td>
-        <td><input type="text"></td>
+        <td><input name="datan" type="text"></td>
     </tr>
     <tr>
         <td>Email</td>
-        <td><input type="text"></td>
+        <td><input name="email" type="text"></td>
     </tr>
     <tr>
         <td>CNP</td>
-        <td><input type="text"></td>
+        <td><input name="cnp" type="text"></td>
     </tr>
     <tr>
         <td>Varsta</td>
-        <td><input type="text"></td>
+        <td><input name="varsta" type="text"></td>
     </tr>
     <tr>
         <td>Casatorit</td>
-        <td><input type="text"></td>
+        <td><input name="casatorit" type="text"></td>
     </tr>   
      <tr>
         <td></td>
-        <td><input type="submit" value="Insereaza"></td>
+        <td><input name="inserare" type="submit" value="Insereaza"></td>
     </tr> 
 </table>
 </form>
